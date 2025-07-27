@@ -1,0 +1,15 @@
+{
+    "name": "Laravel Dev Container",
+    "dockerComposeFile": "../docker-compose.yml",
+    "service": "laravel",
+    "workspaceFolder": "/var/www",
+    "settings": {
+        "terminal.integrated.shell.linux": "/bin/bash"
+    },
+    "extensions": [
+        "bmewburn.vscode-intelephense-client",
+        "xdebug.php-debug"
+    ],
+    "forwardPorts": [8000, 3000],
+    "postCreateCommand": "composer install && npm install"
+}

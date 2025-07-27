@@ -1,0 +1,84 @@
+version: '3.8'
+
+services:
+  laravel:
+    build:
+      context: .
+      dockerfile: .devcontainer/Dockerfile
+    container_name: laravel-app
+    working_dir: /var/www/api
+    volumes:
+      - ./api:/var/www/api
+    ports:
+      - "8000:8000"
+    depends_on:
+      - mysql
+      - node-microservice
+    networks:
+      - app-network
+    command: >
+      /bin/bash -c "
+        set -x
+        cd /var/www/api &&
+        echo 'Instalando dependências...' &&
+        composer install --no-interaction &&
+
+        echo 'Aguardando MySQL...' &&
+        while ! mysqladmin ping -h mysql -u root -proot --silent; do
+          sleep 1
+        done &&
+
+        echo 'Limpando caches...' &&
+        php artisan config:clear &&
+        php artisan view:clear &&
+        php artisan route:clear &&
+
+        echo 'Executando migrações...' &&
+        php artisan migrate:fresh --force &&
+
+        echo 'Otimizando...' &&
+        php artisan optimize &&
+
+        echo 'Iniciando servidor Laravel...' &&
+        php artisan serve --host=0.0.0.0 --port=8000
+      "
+
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: laravel
+      MYSQL_USER: laravel
+      MYSQL_PASSWORD: secret
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - app-network
+
+  node-microservice:
+    container_name: node-microservice
+    build:
+      context: ./node-microservice
+      dockerfile: Dockerfile
+    working_dir: /app
+    volumes:
+      - ./node-microservice:/app
+      - /app/node_modules
+    ports:
+      - "3000:3000"
+    networks:
+      - app-network
+    environment:
+      NODE_ENV: development
+    command: bash -c "npm install && npm start"
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  mysql-data:
+    driver: local
