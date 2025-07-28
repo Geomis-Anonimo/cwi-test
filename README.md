@@ -30,10 +30,20 @@ A documentação da API está disponível via Swagger (OpenAPI), permitindo fác
 
 ## Como usar
 
-1. Clone o repositório.  
-2. Certifique-se de que o Docker está instalado em sua máquina.  
-3. Execute o comando abaixo para subir o ambiente:  
+1. Clone o repositório.
+2. Duplicar o arquivo ".env.examplo" dentro do projeto "api" e renomear para ".env". Em seguida, adicionar as informações de banco de dados. No Docker compose, apenas para testes, foi feita uma imagem do mysql com as seguintes credenciais:
+```env
+DB_CONNECTION=mysql
+DB_HOST=mysql
+DB_PORT=3306
+DB_DATABASE=laravel
+DB_USERNAME=laravel
+DB_PASSWORD=secret
+NODE_MICROSERVICE_URL=http://node-microservice:3000
+```
+4. Certifique-se de que o Docker está instalado em sua máquina.  
+5. Execute o comando abaixo para subir o ambiente:  
 
    ```bash
    docker compose up -d --build
-4. Após o build e os containers estarem rodando, acesse a documentação Swagger em: (http://localhost:8000/api/documentation)
+6. Após o build e os containers estarem rodando, acesse a documentação Swagger em: (http://localhost:8000/api/documentation)
