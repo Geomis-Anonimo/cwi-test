@@ -39,6 +39,7 @@ DB_PORT=3306
 DB_DATABASE=laravel
 DB_USERNAME=laravel
 DB_PASSWORD=secret
+NODE_MICROSERVICE_URL=http://localhost:3000
 ```
 4. Certifique-se de que o Docker está instalado em sua máquina.  
 5. Execute o comando abaixo para subir o ambiente:  
