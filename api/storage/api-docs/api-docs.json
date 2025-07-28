@@ -19,7 +19,7 @@
                 }
             }
         },
-        "/api/externas": {
+        "/api/external": {
             "get": {
                 "tags": [
                     "API"

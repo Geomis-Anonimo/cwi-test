@@ -21,7 +21,7 @@ class NodeMicroserviceIntegrationTest extends TestCase
             ], 200)
         ]);
 
-        $response = $this->getJson('/api/externas');
+        $response = $this->getJson('/api/external');
 
         $response->assertStatus(200)
             ->assertJsonStructure([
@@ -41,7 +41,7 @@ class NodeMicroserviceIntegrationTest extends TestCase
             'node-microservice:3000/api/microservice' => Http::response([], 500)
         ]);
 
-        $response = $this->getJson('/api/externas');
+        $response = $this->getJson('/api/external');
 
         $response->assertStatus(502)
             ->assertJson([
@@ -56,7 +56,7 @@ class NodeMicroserviceIntegrationTest extends TestCase
             'node-microservice:3000/api/microservice' => Http::response([], 408)
         ]);
 
-        $response = $this->getJson('/api/externas');
+        $response = $this->getJson('/api/external');
 
         $response->assertStatus(504)
             ->assertJson([

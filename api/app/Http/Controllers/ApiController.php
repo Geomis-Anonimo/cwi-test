@@ -35,7 +35,7 @@ class ApiController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/externas",
+     *     path="/api/external",
      *     tags={"API"},
      *     summary="Consulta dados do microserviço Node",
      *     @OA\Response(
@@ -44,7 +44,7 @@ class ApiController extends Controller
      *     )
      * )
      */
-    public function externas(NodeMicroserviceService $microservice)
+    public function external(NodeMicroserviceService $microservice)
     {
         $response = $microservice->getData();
         return response()->json($response);
