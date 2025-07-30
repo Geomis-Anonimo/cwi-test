@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Services\UserService;
+use Exception;
 
 /**
  * @OA\Schema(
@@ -49,7 +50,12 @@ class UserController extends Controller
      */
     public function index()
     {
-        return response()->json($this->userService->getAllUsers());
+        try {
+            $response = $this->userService->getAllUsers();
+            return response()->json($response);
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
+        }
     }
 
     /**
@@ -69,8 +75,12 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
-        $user = $this->userService->createUser($request->validated());
-        return response()->json($user, 201);
+        try {
+            $user = $this->userService->createUser($request->validated());
+            return response()->json($user, 201);
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
+        }
     }
 
     /**
@@ -93,7 +103,11 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        return response()->json($this->userService->getUserById($id));
+        try {
+            return response()->json($this->userService->getUserById($id));
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
+        }
     }
 
     /**
@@ -120,8 +134,12 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, $id)
     {
-        $user = $this->userService->updateUser($id, $request->validated());
-        return response()->json($user);
+        try {
+            $user = $this->userService->updateUser($id, $request->validated());
+            return response()->json($user);
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
+        }
     }
 
     /**
@@ -144,7 +162,11 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        $this->userService->deleteUser($id);
-        return response()->noContent();
+        try {
+            $this->userService->deleteUser($id);
+            return response()->noContent();
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
+        }
     }
 }

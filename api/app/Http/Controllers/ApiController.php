@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Services\NodeMicroserviceService;
+use Exception;
 
 /**
  * @OA\Info(
@@ -46,7 +47,11 @@ class ApiController extends Controller
      */
     public function external(NodeMicroserviceService $microservice)
     {
-        $response = $microservice->getData();
-        return response()->json($response);
+        try {
+            $response = $microservice->getData();
+            return response()->json($response);
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
+        }
     }
 }
